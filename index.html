@@ -26,23 +26,113 @@
       background: radial-gradient(circle at top, #1b0710 0, #050308 55%, #020107 100%);
       color: var(--text);
       line-height: 1.6;
+      transition: background 0.4s ease, color 0.4s ease;
     }
     a { color: var(--gold); text-decoration: none; }
     a:hover { text-decoration: underline; }
-<!-- COMING SOON BANNER -->
-<div style="
-  background: linear-gradient(to right, #7e0f1d, #ca3400, #7e0f1d);
-  padding: 0.6rem 1rem;
-  text-align: center;
-  color: #f5e6dc;
-  font-family: 'Georgia', serif;
-  font-size: 0.9rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  box-shadow: 0 0 18px rgba(202,52,0,0.7);
-">
-  🔥 Hades Bites Wickedly • COMING SOON • Feast in the Underworld 🔥
-</div>
+
+    /* Loading Overlay */
+    .loader-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #2b0915 0, #050308 55%, #020107 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .loader-inner {
+      text-align: center;
+      padding: 1.5rem 2rem;
+      border-radius: 20px;
+      border: 1px solid rgba(245,201,122,0.4);
+      background: radial-gradient(circle at top, rgba(126,15,29,0.9), rgba(5,3,8,0.98));
+      box-shadow: 0 0 30px rgba(0,0,0,0.9);
+    }
+    .loader-symbol {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(245,201,122,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: radial-gradient(circle, #ca3400 0, #050308 65%);
+      color: #fdf3e0;
+      box-shadow: 0 0 22px rgba(202,52,0,0.8);
+      animation: loaderPulse 1.6s ease-in-out infinite;
+    }
+    .loader-text-main {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #f8e8c4;
+      margin-bottom: 0.4rem;
+    }
+    .loader-text-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    body.loaded .loader-overlay {
+      opacity: 0;
+      transform: translateY(-12px);
+      pointer-events: none;
+    }
+
+    @keyframes loaderPulse {
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(202,52,0,0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 0 26px rgba(202,52,0,0.9); }
+      100% { transform: scale(1); box-shadow: 0 0 10px rgba(202,52,0,0.4); }
+    }
+
+    /* Coming Soon Banner with flicker */
+    .coming-soon-banner {
+      background: linear-gradient(to right, #7e0f1d, #ca3400, #7e0f1d);
+      padding: 0.6rem 1rem;
+      text-align: center;
+      color: #f5e6dc;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      box-shadow: 0 0 18px rgba(202,52,0,0.7);
+      position: relative;
+      overflow: hidden;
+      animation: flameFlicker 2.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes flameFlicker {
+      0% {
+        opacity: 0.88;
+        text-shadow: 0 0 6px rgba(0,0,0,0.8), 0 0 14px rgba(245,201,122,0.6);
+        transform: translateY(0);
+      }
+      40% {
+        opacity: 1;
+        text-shadow: 0 0 8px rgba(0,0,0,0.9), 0 0 18px rgba(245,201,122,0.9);
+        transform: translateY(-0.5px);
+      }
+      70% {
+        opacity: 0.93;
+        text-shadow: 0 0 5px rgba(0,0,0,0.7), 0 0 12px rgba(245,201,122,0.5);
+        transform: translateY(0.5px);
+      }
+      100% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(0,0,0,0.95), 0 0 22px rgba(245,201,122,1);
+        transform: translateY(-0.4px);
+      }
+    }
+
     header {
       position: sticky;
       top: 0;
@@ -511,6 +601,21 @@
   </style>
 </head>
 <body>
+
+  <!-- Loading overlay -->
+  <div class="loader-overlay">
+    <div class="loader-inner">
+      <div class="loader-symbol">HB</div>
+      <div class="loader-text-main">Summoning the Underworld Kitchen…</div>
+      <div class="loader-text-sub">Please wait, mortal.</div>
+    </div>
+  </div>
+
+  <!-- COMING SOON BANNER with flicker -->
+  <div class="coming-soon-banner">
+    🔥 Hades Bites Wickedly • COMING SOON • Feast in the Underworld 🔥
+  </div>
+
   <header>
     <div class="container">
       <div class="nav">
@@ -890,7 +995,13 @@
       </div>
     </div>
     <script>
-      document.getElementById('year').textContent = new Date().getFullYear();
+      window.addEventListener('load', function () {
+        var yearSpan = document.getElementById('year');
+        if (yearSpan) {
+          yearSpan.textContent = new Date().getFullYear();
+        }
+        document.body.classList.add('loaded');
+      });
     </script>
   </footer>
 </body>
