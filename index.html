@@ -451,15 +451,124 @@
       color: var(--gold);
       margin-bottom: 0.2rem;
     }
+
+    /* section title + secret star wrapper */
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
     .section-title {
       font-family: "Georgia", "Times New Roman", serif;
       font-size: 1.4rem;
       margin-bottom: 0.3rem;
     }
+
     .section-subtitle {
       font-size: 0.88rem;
       color: var(--muted);
       max-width: 32rem;
+    }
+
+    /* Secret star (ghost hotspot) */
+    .secret-star {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(245,201,122,0.55);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #f5e6dc;
+      cursor: pointer;
+      opacity: 0.45;
+      box-shadow: 0 0 6px rgba(245,201,122,0.4);
+      transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .secret-star span {
+      transform: translateY(-0.5px);
+    }
+    .secret-star:hover {
+      opacity: 0.9;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(245,201,122,0.8);
+    }
+    .secret-star.active {
+      opacity: 1;
+      box-shadow: 0 0 12px rgba(245,201,122,1), 0 0 20px rgba(202,52,0,0.9);
+    }
+
+    /* Secret menu panel */
+    .secret-menu {
+      margin-top: 1.4rem;
+      border-radius: 18px;
+      border: 1px dashed rgba(245,201,122,0.4);
+      background: radial-gradient(circle at top left, rgba(15,3,10,0.97), rgba(5,3,8,0.98));
+      padding: 1.1rem 1.2rem;
+      font-size: 0.85rem;
+      display: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .secret-menu::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(245,201,122,0.18), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(202,52,0,0.25), transparent 60%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .secret-menu-inner {
+      position: relative;
+      z-index: 1;
+    }
+    .secret-menu.visible {
+      display: block;
+      animation: fadeInUp 0.38s ease forwards;
+    }
+    .secret-menu-label {
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.72rem;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .secret-menu-title {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .secret-menu-desc {
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .secret-menu-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .secret-price {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .secret-badge {
+      display: inline-block;
+      margin-left: 0.4rem;
+      padding: 0.05rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(202,52,0,0.7);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #f5e6dc;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     /* Menu */
@@ -591,15 +700,57 @@
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
       gap: 2rem;
     }
+
+    /* Calendar panel */
+    .summon-calendar {
+      border-radius: 20px;
+      border: 1px solid rgba(245,201,122,0.25);
+      padding: 1.3rem 1.4rem;
+      background: radial-gradient(circle at top, rgba(202,52,0,0.7), #050308);
+      box-shadow: 0 0 24px rgba(0,0,0,0.9);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .summon-calendar h4 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .calendar-wrap {
+      margin-top: 0.6rem;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #050308;
+      border: 1px solid rgba(245,201,122,0.3);
+      height: 480px;
+    }
+    .calendar-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Inquiry form (general inquiries only) */
     .summon-form {
       border-radius: 20px;
       border: 1px solid rgba(245,201,122,0.25);
       padding: 1.3rem 1.4rem;
       background: radial-gradient(circle at top left, rgba(126,15,29,0.7), rgba(5,3,8,0.96));
       box-shadow: 0 0 24px rgba(0,0,0,0.9);
+      position: relative;
+      overflow: hidden;
     }
     .form-row {
       margin-bottom: 0.8rem;
+    }
+    .form-title {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
     }
     label {
       display: block;
@@ -632,6 +783,7 @@
       color: var(--muted);
       margin-top: 0.15rem;
     }
+
     .summon-side {
       font-size: 0.85rem;
       color: var(--muted);
@@ -659,35 +811,89 @@
       margin-top: 0.4rem;
     }
 
-    /* Calendar panel */
-    .summon-calendar {
-      border-radius: 20px;
-      border: 1px solid rgba(245,201,122,0.25);
-      padding: 1.3rem 1.4rem;
-      background: radial-gradient(circle at top, rgba(202,52,0,0.7), #050308);
-      box-shadow: 0 0 24px rgba(0,0,0,0.9);
-      font-size: 0.85rem;
-      color: var(--muted);
+    /* Rune confirmation animation (Option D) */
+    .inquiry-inner {
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-    .summon-calendar h4 {
-      font-size: 0.9rem;
+    .summon-form.sent .inquiry-inner {
+      opacity: 0;
+      transform: translateY(6px);
+      pointer-events: none;
+    }
+
+    .rune-confirm {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: radial-gradient(circle at top, rgba(10,0,0,0.85), rgba(5,3,8,0.98));
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.02);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .summon-form.sent .rune-confirm {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .rune-circle {
+      width: 96px;
+      height: 96px;
+      border-radius: 999px;
+      border: 1px solid rgba(245,201,122,0.7);
+      box-shadow:
+        0 0 10px rgba(245,201,122,0.7),
+        0 0 24px rgba(202,52,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #fdf3e0;
+      animation: runeSpin 4s linear infinite, runeGlow 2s ease-in-out infinite alternate;
+    }
+
+    .rune-circle::before {
+      content: "✶";
+    }
+
+    .rune-text-main {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--gold);
-      margin-bottom: 0.4rem;
+      color: #f8e8c4;
+      text-align: center;
     }
-    .calendar-wrap {
-      margin-top: 0.6rem;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #050308;
-      border: 1px solid rgba(245,201,122,0.3);
-      height: 480px;
+
+    .rune-text-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      max-width: 260px;
     }
-    .calendar-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
+
+    @keyframes runeSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes runeGlow {
+      0% {
+        box-shadow:
+          0 0 8px rgba(245,201,122,0.6),
+          0 0 18px rgba(202,52,0,0.7);
+      }
+      100% {
+        box-shadow:
+          0 0 14px rgba(245,201,122,0.95),
+          0 0 30px rgba(202,52,0,1);
+      }
     }
 
     footer {
@@ -754,7 +960,7 @@
         <div class="nav-left">
           <a href="#top" class="nav-logo-link">
             <!-- Make sure this file exists next to the HTML -->
-            <img src="hades-cerberus-logo.jpg" alt="Hades Bites Wickedly Logo" class="logo-img">
+            <img src="HadesBitesWickedly.png" alt="Hades Bites Wickedly Logo" class="logo-img">
           </a>
           <div class="nav-brand-text">
             <div class="brand-name">Hades Bites Wickedly</div>
@@ -834,7 +1040,13 @@
       <div class="container">
         <div class="section-header">
           <div class="section-eyebrow">The Wicked Feast</div>
-          <h2 class="section-title">Underworld Menu</h2>
+          <div class="section-title-row">
+            <h2 class="section-title">Underworld Menu</h2>
+            <!-- subtle ghost hotspot star -->
+            <button class="secret-star" id="secretStar" aria-label="Hidden sigil">
+              <span>✶</span>
+            </button>
+          </div>
           <p class="section-subtitle">
             A menu of infernal comfort food with options for mortals of every kind — kids, picky eaters, spice fiends, and those walking gentler paths.
           </p>
@@ -999,6 +1211,23 @@
             </p>
           </aside>
         </div>
+
+        <!-- SECRET MENU: Minotaur’s Challenge Platter ONLY -->
+        <div id="secretMenu" class="secret-menu" aria-hidden="true">
+          <div class="secret-menu-inner">
+            <div class="secret-menu-label">Hidden Runes of the Underworld</div>
+            <div class="secret-menu-title">Minotaur’s Challenge Platter</div>
+            <p class="secret-menu-desc">
+              A massive, heat-forged feast of your <em>hottest</em> mains and sides —
+              a “test yourself on the flames of the Labyrinth” kind of platter. No prizes, no mercy, just bragging rights.
+            </p>
+            <p class="secret-menu-meta">
+              <span class="secret-price">$24–$34</span>
+              <span class="secret-badge">Very spicy • Shareable</span>
+            </p>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -1051,9 +1280,9 @@
       <div class="container">
         <div class="section-header">
           <div class="section-eyebrow">Summon the Underworld Kitchen</div>
-          <h2 class="section-title">Book Hades Bites Wickedly</h2>
+          <h2 class="section-title">Bookings & General Inquiries</h2>
           <p class="section-subtitle">
-            Festivals, night markets, private parties, spooky season events, weddings with a dark twist — book your date on the calendar or send a general inquiry below.
+            Use the calendar to claim your date in the Underworld. Use the form for questions, curiosities, and mortal messages only.
           </p>
         </div>
 
@@ -1062,7 +1291,7 @@
           <div class="summon-calendar">
             <h4>Claim Your Date in the Underworld</h4>
             <p class="form-helper">
-              Pick your date and time directly on the calendar. Once confirmed, you’ll get an email from our booking system.
+              Choose your time directly on the calendar. Once confirmed, you’ll receive an email from our booking system.
             </p>
             <div class="calendar-wrap">
               <iframe
@@ -1075,58 +1304,68 @@
             </div>
           </div>
 
-          <!-- General Inquiry Form + contact info -->
-          <form class="summon-form">
-            <div class="form-row">
-              <label for="name">Your Name</label>
-              <input id="name" type="text" placeholder="Mortal, coven, or event organizer name">
-            </div>
-            <div class="form-row">
-              <label for="email">Contact Email</label>
-              <input id="email" type="email" placeholder="you@example.com">
-            </div>
-            <div class="form-row">
-              <label for="eventType">Type of Summoning</label>
-              <select id="eventType">
-                <option>Festival or Market</option>
-                <option>Private Party</option>
-                <option>Wedding or Reception</option>
-                <option>Corporate or School Event</option>
-                <option>Other Gathering of Mortals</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <label for="date">Desired Date</label>
-              <input id="date" type="text" placeholder="Approximate date or date range">
-              <div class="form-helper">If you booked via the calendar, you can use this for backup or extra details.</div>
-            </div>
-            <div class="form-row">
-              <label for="details">Message to the Hound of Hades</label>
-              <textarea id="details" placeholder="Guest count, vibe, dietary needs, and any details you’d like to share."></textarea>
-            </div>
-            <div class="form-row">
-              <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.3rem;">
-                Send General Inquiry
+          <!-- General Inquiry Form ONLY -->
+          <form class="summon-form" id="inquiryForm">
+            <div class="inquiry-inner">
+              <h3 class="form-title">General Inquiries Only</h3>
+              <p class="form-helper">
+                For <strong>event bookings</strong>, please use the Underworld Calendar on the left.  
+                This form is for questions, collaborations, and other non-booking messages.
+              </p>
+
+              <div class="form-row">
+                <label for="inqName">Your Name</label>
+                <input id="inqName" type="text" placeholder="What shall we call you?" required>
+              </div>
+
+              <div class="form-row">
+                <label for="inqEmail">Email Address</label>
+                <input id="inqEmail" type="email" placeholder="you@example.com" required>
+              </div>
+
+              <div class="form-row">
+                <label for="inqSubject">Subject</label>
+                <input id="inqSubject" type="text" placeholder="Press, collab, question, etc.">
+              </div>
+
+              <div class="form-row">
+                <label for="inqMessage">Your Message</label>
+                <textarea id="inqMessage" placeholder="Ask your question, mortal…" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.4rem;">
+                Send Inquiry
               </button>
-              <div class="form-helper">
-                This is a sample form. Connect it to your email service or booking system when you’re ready.
+
+              <p class="form-helper" style="margin-top:0.4rem;">
+                This does <strong>not</strong> reserve a date. To book the truck, claim your time on the calendar.
+              </p>
+
+              <div class="summon-side" style="margin-top:1rem;">
+                <h4>Other Ways to Reach the Underworld</h4>
+                <ul class="summon-list">
+                  <li><strong>Email:</strong> <a href="mailto:HadesBitesWickedly@gmail.com">HadesBitesWickedly@gmail.com</a></li>
+                  <li><strong>Phone:</strong> <a href="tel:15409448898">540-944-8898</a></li>
+                  <li><strong>Instagram:</strong> <a href="https://instagram.com/hadesbiteswickedly" target="_blank">@hadesbiteswickedly</a></li>
+                  <li><strong>TikTok:</strong> <a href="https://www.tiktok.com/@hadesbiteswickedly" target="_blank">@hadesbiteswickedly</a></li>
+                </ul>
+                <p class="summon-note">
+                  When the Hound of Hades is not roaming the mortal realm, the truck is in the workshop — reforging menus, seasoning spells, and planning the next appearance.
+                </p>
               </div>
             </div>
 
-            <div class="summon-side" style="margin-top:1rem;">
-              <h4>Other Ways to Reach the Underworld</h4>
-              <ul class="summon-list">
-                <li><strong>Email:</strong> <a href="mailto:HadesBitesWickedly@gmail.com">HadesBitesWickedly@gmail.com</a></li>
-                <li><strong>Phone:</strong> <a href="tel:15409448898">540-944-8898</a></li>
-                <li><strong>Instagram:</strong> <a href="https://instagram.com/hadesbiteswickedly" target="_blank">@hadesbiteswickedly</a></li>
-                <li><strong>TikTok:</strong> <a href="https://www.tiktok.com/@hadesbiteswickedly" target="_blank">@hadesbiteswickedly</a></li>
-              </ul>
-              <p class="summon-note">
-                When the Hound of Hades is not roaming the mortal realm, the truck is in the workshop — reforging menus, seasoning spells, and planning the next appearance.
-              </p>
+            <!-- Rune confirmation overlay -->
+            <div class="rune-confirm" aria-hidden="true">
+              <div class="rune-circle"></div>
+              <div class="rune-text-main">Delivered</div>
+              <div class="rune-text-sub">
+                Your words have been etched in flame.  
+                The Underworld awaits.
+              </div>
             </div>
-
           </form>
+
         </div>
       </div>
     </section>
@@ -1157,6 +1396,36 @@
         if (!header) return;
         header.classList.toggle('scrolled', window.scrollY > 20);
       });
+
+      // Inquiry form confirmation animation (Option D)
+      (function () {
+        const form = document.getElementById('inquiryForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault(); // remove this when you hook to real backend
+          form.classList.add('sent');
+
+          // optional: reset back after a while so user can send another
+          setTimeout(function () {
+            form.classList.remove('sent');
+            form.reset();
+          }, 6000);
+        });
+      })();
+
+      // Secret menu toggle (ghost hotspot star)
+      (function () {
+        const star = document.getElementById('secretStar');
+        const secret = document.getElementById('secretMenu');
+        if (!star || !secret) return;
+
+        star.addEventListener('click', function () {
+          const visible = secret.classList.toggle('visible');
+          star.classList.toggle('active', visible);
+          secret.setAttribute('aria-hidden', !visible);
+        });
+      })();
     </script>
   </footer>
 </body>
