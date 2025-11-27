@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Hades Wicked Bites | Feast in the Underworld</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Hades Wicked Bites — an underworld-themed food truck serving wicked sliders, infernal mac, bites, bowls, combos, and elixirs. Feast in the Underworld.">
+  <meta name="description" content="Hades Wicked Bites — an underworld-themed food truck serving wicked sliders, ember-kissed mac, bites, bowls, feasts, and underworld elixirs. Feast in the Underworld.">
   <style>
     :root {
       --bg: #050308;
@@ -30,6 +30,32 @@
     }
     a { color: var(--gold); text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    /* Skip link for accessibility */
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: #050308;
+      color: var(--gold);
+      border-radius: 999px;
+      border: 1px solid rgba(245,201,122,0.7);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      z-index: 10000;
+    }
+    .skip-link:focus-visible {
+      left: 0.75rem;
+    }
+
+    /* Focus rings for keyboard users */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
 
     /* Loading Overlay */
     .loader-overlay {
@@ -638,7 +664,7 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Seasonal icon with hover tooltip */
+    /* Seasonal icon with hover tooltip + glow */
     .seasonal-icon {
       display: inline-block;
       margin-left: 0.3rem;
@@ -690,6 +716,40 @@
       opacity: 1;
     }
 
+    /* Icon glow on load for active seasonal items */
+    .icon-glow {
+      animation: iconGlow 1.4s ease-out;
+    }
+    @keyframes iconGlow {
+      0% {
+        text-shadow: 0 0 4px rgba(245,201,122,0.5), 0 0 8px rgba(202,52,0,0.5);
+        transform: scale(1);
+      }
+      50% {
+        text-shadow: 0 0 10px rgba(245,201,122,1), 0 0 18px rgba(202,52,0,1);
+        transform: scale(1.08);
+      }
+      100% {
+        text-shadow: 0 0 4px rgba(245,201,122,0.4), 0 0 8px rgba(202,52,0,0.4);
+        transform: scale(1);
+      }
+    }
+
+    /* Seasonal active transition */
+    .season-active {
+      animation: fadeInSeason 0.6s ease-out;
+    }
+    @keyframes fadeInSeason {
+      0% {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     /* Menu */
     .menu-grid {
       display: grid;
@@ -711,6 +771,7 @@
     .menu-item {
       padding: 0.55rem 0;
       border-bottom: 1px dashed rgba(245,201,122,0.25);
+      position: relative;
     }
     .menu-item:last-child {
       border-bottom: none;
@@ -769,6 +830,36 @@
       font-style: italic;
       margin-top: 0.5rem;
       color: #f8e8c4;
+    }
+
+    /* Cerberus tooltip */
+    .cerberus-tip {
+      position: fixed;
+      left: 50%;
+      bottom: 1.4rem;
+      transform: translateX(-50%);
+      max-width: 90%;
+      background: rgba(5,3,8,0.96);
+      border-radius: 999px;
+      border: 1px solid rgba(245,201,122,0.6);
+      padding: 0.45rem 0.9rem;
+      font-size: 0.75rem;
+      color: var(--text);
+      box-shadow: 0 0 14px rgba(0,0,0,0.85);
+      display: none;
+      z-index: 60;
+      text-align: center;
+    }
+    .cerberus-tip span {
+      opacity: 0.9;
+    }
+    .cerberus-tip-visible {
+      display: block;
+      animation: cerbTipFade 0.25s ease-out;
+    }
+    @keyframes cerbTipFade {
+      from { opacity: 0; transform: translate(-50%, 6px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
     }
 
     /* About */
@@ -935,6 +1026,12 @@
   </style>
 </head>
 <body>
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+  <!-- Cerberus tooltip -->
+  <div id="cerberusTip" class="cerberus-tip" role="status" aria-live="polite">
+    <span id="cerberusTipText"></span>
+  </div>
 
   <!-- Loading overlay -->
   <div class="loader-overlay">
@@ -946,7 +1043,7 @@
   </div>
 
   <!-- COMING SOON BANNER -->
-  <div class="coming-soon-banner">
+  <div class="coming-soon-banner" role="status" aria-live="polite">
     🔥 Hades Wicked Bites • COMING SOON • Feast in the Underworld 🔥
   </div>
 
@@ -954,14 +1051,13 @@
   <header class="hb-header">
     <div class="container">
       <div class="nav">
-        <nav class="nav-links-left">
+        <nav class="nav-links-left" aria-label="Primary">
           <a href="#menu">Menu</a>
           <a href="#about">Lore</a>
         </nav>
 
         <div class="nav-center">
           <a href="#top" class="nav-logo-link">
-            <!-- Make sure this file name & path matches your actual logo -->
             <img src="HadesWickedBites.png" alt="Hades Wicked Bites Logo" class="logo-img">
           </a>
           <div class="nav-brand-text">
@@ -977,7 +1073,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="mainContent">
     <!-- Hero -->
     <section class="hero" id="top">
       <div class="container">
@@ -989,7 +1085,7 @@
               Eat wickedly. Feast in the Underworld.
             </h1>
             <p class="hero-subtitle">
-              An infernal food truck serving sliders, infernal mac, bites, bowls, combos, and underworld elixirs.
+              An infernal food truck serving sliders, ember-kissed mac, bites, bowls, feasts, and underworld elixirs.
               Dark, witchy, family-friendly, and allergy-aware — welcome to the Underworld Kitchen.
             </p>
             <div class="hero-tags">
@@ -1022,7 +1118,7 @@
                 </div>
                 <div class="hero-card">
                   <h4>Underworld Elixirs</h4>
-                  <p>Styx sodas, Blood Moon punch, Lethe Lemon Fizz, and more.</p>
+                  <p>Styx sodas, Blood Moon Punch, Lethe Lemon Fizz, and more.</p>
                 </div>
                 <div class="hero-card">
                   <h4>The Hound of Hades</h4>
@@ -1043,13 +1139,18 @@
           <div class="section-eyebrow">The Wicked Feast</div>
           <div class="section-title-row">
             <h2 class="section-title">Underworld Menu</h2>
-            <!-- subtle ghost hotspot star -->
-            <button class="secret-star" id="secretStar" aria-label="Hidden sigil">
+            <button
+              class="secret-star"
+              id="secretStar"
+              aria-label="Toggle secret menu"
+              aria-expanded="false"
+              aria-controls="secretMenu"
+            >
               <span>✶</span>
             </button>
           </div>
           <p class="section-subtitle">
-            Infernal comfort food for mortals of every kind — kids, picky eaters, spice fiends, and those walking gentler paths.
+            Infernal comfort food for mortals of every kind — little wraiths, picky eaters, spice fiends, and those walking gentler paths.
           </p>
 
           <!-- Seasonal specials callout -->
@@ -1073,7 +1174,7 @@
                   </div>
                   <div class="menu-item-desc">
                     Three wicked mini burgers with molten cheese, Cerberus seasoning, and Underworld aioli.
-                    Also available plain for mortal palates.
+                    Also available plain for cautious mortals and little wraiths.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">Kid-friendly option</div>
@@ -1087,7 +1188,7 @@
                   </div>
                   <div class="menu-item-desc">
                     Smoky, creamy mac with ember-seasoned cheese. Choose Mortal (plain), Wicked (medium), or Hellfire (spicy),
-                    with optional GF/DF substitutes.
+                    with optional GF/DF swaps.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">GF available</div>
@@ -1101,7 +1202,7 @@
                     <span>Chicken or Tofu</span>
                   </div>
                   <div class="menu-item-desc">
-                    Crispy bites of chicken or tofu served plain, with Ember Honey, or drenched in Cerberus Lime Inferno glaze.
+                    Crispy bites of chicken or tofu served plain, kissed with Ember Honey, or drenched in Cerberus Lime Inferno glaze.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">Vegan option</div>
@@ -1116,7 +1217,7 @@
                   </div>
                   <div class="menu-item-desc">
                     Rice or cauliflower base with charred veggies and your choice of chicken, pork, tofu, or full-veggie.
-                    Sauce intensity from “Mortal” to “Infernal”.
+                    Sauce intensity from “Mortal” to full “Infernal”.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">GF friendly</div>
@@ -1131,7 +1232,7 @@
                     <span>Shareable</span>
                   </div>
                   <div class="menu-item-desc">
-                    Black or classic chips loaded with ember cheese, protein of choice, and optional Hellfire drizzle.
+                    Black or classic chips loaded with ember cheese, your choice of protein, and optional Hellfire drizzle.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">GF chips option</div>
@@ -1146,7 +1247,7 @@
                     <span>Combo</span>
                   </div>
                   <div class="menu-item-desc">
-                    Three Cerberus Sliders (or Mortal-style plain), Cinder or Mortal Fries, and one Underworld Elixir.
+                    Three Cerberus Sliders (or Mortal-style plain), Cinder or Mortal Fries, and one Underworld Elixir of your choice.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">Best-seller</div>
@@ -1159,7 +1260,7 @@
                     <span>Shareable</span>
                   </div>
                   <div class="menu-item-desc">
-                    Mix of sliders, Ashen Bites, a shared side, and two elixirs. Built for couples, covens, or best fiends.
+                    A mix of sliders, Ashen Bites, a shared side, and two elixirs. Built for couples, covens, or best fiends.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">Shareable</div>
@@ -1172,7 +1273,7 @@
                     <span>Kids</span>
                   </div>
                   <div class="menu-item-desc">
-                    One plain slider or Ashen Bites, Mortal Fries or fruit cup, and a small elixir or juice.
+                    One plain slider or Ashen Bites, Mortal Fries or fruit cup, and a small elixir or juice. Designed for little wraiths and gentle palates.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">Kid-friendly</div>
@@ -1190,7 +1291,7 @@
                     Mortal Slider Meal
                   </div>
                   <div class="menu-item-desc">
-                    Simple slider with cheese, no spice, served with Mortal Fries and ketchup. Perfect for cautious mortals.
+                    Simple slider with cheese, no spice, served with Mortal Fries and ketchup. Perfect for cautious mortals and picky eaters.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">Kid-friendly</div>
@@ -1202,7 +1303,7 @@
                     Gentle Ember Bowl
                   </div>
                   <div class="menu-item-desc">
-                    Rice or fries topped with plain chicken or tofu, light seasoning only, with sauce on the side.
+                    Rice or fries topped with plain chicken or tofu, light seasoning only, with all sauces safely on the side.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">GF option</div>
@@ -1218,7 +1319,7 @@
                     <span>or Mortal Fries</span>
                   </div>
                   <div class="menu-item-desc">
-                    Ember-spiced or plain fries with Underworld aioli, Cerberus Lime Inferno, or classic dips.
+                    Ember-spiced or plain fries with Underworld aioli, Cerberus Lime Inferno, or classic mortal-friendly dips.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">GF</div>
@@ -1232,7 +1333,7 @@
                     <span>Side</span>
                   </div>
                   <div class="menu-item-desc">
-                    Single-serve cups of Acheron mac for kids, snackers, or those dabbling lightly in the flames.
+                    Single-serve cups of Acheron Mac for kids, snackers, or those dabbling lightly in the flames.
                   </div>
                 </div>
 
@@ -1241,7 +1342,7 @@
                     Elysian Orchard Fruit Cups
                   </div>
                   <div class="menu-item-desc">
-                    Fresh seasonal fruit gathered from the “Elysian fields” beyond the Underworld. Light, bright, and halo-approved.
+                    Fresh seasonal fruit gathered from the “Elysian fields” beyond the Underworld. Light, bright, and halo-approved even for the most cautious souls.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">Vegan</div>
@@ -1255,7 +1356,7 @@
                     Underworld Churros
                   </div>
                   <div class="menu-item-desc">
-                    Cinnamon-ash sugar churros with optional flame caramel dip.
+                    Cinnamon-ash sugar churros with optional flame caramel dip for those who like a little burn with their sweet.
                   </div>
                 </div>
 
@@ -1264,14 +1365,18 @@
                     Cerberus Chocolate Skulls
                   </div>
                   <div class="menu-item-desc">
-                    Dark chocolate skulls, available in classic or gently spiced for brave souls.
+                    Dark chocolate skulls, available in classic or gently spiced for brave souls (or curious mortals).
                   </div>
                 </div>
 
                 <!-- Seasonal Night Pearls of Persephone (rotated by JS) -->
 
                 <!-- SPRING RETURN -->
-                <div class="menu-item night-pearls" data-season="spring">
+                <div
+                  class="menu-item night-pearls"
+                  data-season="spring"
+                  data-cerberus="Spring Report: Bubbles of fruit and flowers. Watcher is suspicious. Biter approves."
+                >
                   <div class="menu-item-name">
                     Night Pearls of Persephone
                     <span
@@ -1282,12 +1387,16 @@
                   </div>
                   <div class="menu-item-desc">
                     Current Aspect: <strong>Spring Return</strong> — strawberries cloaked in moonlit or shadow chocolate,
-                    crowned with spring herbs and petals. Soft, bright, and witchy as the first warm night.
+                    crowned with spring herbs and petals. Soft, bright, and witchy as the first warm night at the edge of the fields.
                   </div>
                 </div>
 
                 <!-- SUMMER FIRE -->
-                <div class="menu-item night-pearls" data-season="summer">
+                <div
+                  class="menu-item night-pearls"
+                  data-season="summer"
+                  data-cerberus="Summer Report: Forbidden fruit detected. Biter recommends immediate tasting. Repeatedly."
+                >
                   <div class="menu-item-name">
                     Night Pearls of Persephone
                     <span
@@ -1298,12 +1407,16 @@
                   </div>
                   <div class="menu-item-desc">
                     Current Aspect: <strong>Summer Fire</strong> — dark chocolate–coated cherry “pearls”
-                    with a flicker of ember heat. Forbidden fruit for hot nights in the Underworld.
+                    with a flicker of ember heat. Forbidden fruit for long, hot nights in the Underworld.
                   </div>
                 </div>
 
                 <!-- AUTUMN HARVEST EMBER -->
-                <div class="menu-item night-pearls" data-season="autumn">
+                <div
+                  class="menu-item night-pearls"
+                  data-season="autumn"
+                  data-cerberus="Autumn Report: Tastes like bonfire and victory. Growler refuses to share."
+                >
                   <div class="menu-item-name">
                     Night Pearls of Persephone
                     <span
@@ -1314,12 +1427,16 @@
                   </div>
                   <div class="menu-item-desc">
                     Current Aspect: <strong>Harvest Ember</strong> — spiced apple “pearls” cloaked in caramel-dark chocolate
-                    and smoky cinnamon sugar. Bonfire sweets from orchard to Underworld.
+                    and smoky cinnamon sugar. Bonfire sweets carrying orchard smoke all the way to the Underworld.
                   </div>
                 </div>
 
                 <!-- WINTER SHADOW -->
-                <div class="menu-item night-pearls" data-season="winter">
+                <div
+                  class="menu-item night-pearls"
+                  data-season="winter"
+                  data-cerberus="Winter Report: Deep, dark, and sticky. Perfect for long patrols at the gates."
+                >
                   <div class="menu-item-name">
                     Night Pearls of Persephone
                     <span
@@ -1330,18 +1447,43 @@
                   </div>
                   <div class="menu-item-desc">
                     Current Aspect: <strong>Winter Shadow</strong> — pomegranate jewels sealed in obsidian-dark chocolate,
-                    dusted for solstice rites. Sweet, deep, and made for long nights.
+                    dusted for solstice rites. Sweet, deep, and meant for long, dark nights at the gates.
                   </div>
                 </div>
 
                 <div class="menu-group-title" style="margin-top:0.9rem;">Underworld Elixirs (Drinks)</div>
+
+                <!-- SPRING DRINK -->
+                <div
+                  class="menu-item seasonal-drink"
+                  data-seasons="spring"
+                  data-cerberus="Cerberus notes: Tastes like sunshine with bubbles. Biter says it is &quot;dangerous&quot; in a good way."
+                >
+                  <div class="menu-item-name">
+                    Elixir of Elysian Dawn
+                    <span
+                      class="seasonal-icon"
+                      aria-hidden="true"
+                      data-tooltip="Spring Seasonal"
+                    >🌷</span>
+                  </div>
+                  <div class="menu-item-desc">
+                    Bright lemon-lavender fizz kissed with spring honey and a whisper of vanilla — a refreshing spell of renewal for wandering souls.
+                  </div>
+                  <div class="menu-badges">
+                    <div class="badge">GF</div>
+                    <div class="badge">DF option</div>
+                    <div class="badge">Vegan option</div>
+                    <div class="badge">Kid-friendly</div>
+                  </div>
+                </div>
 
                 <div class="menu-item">
                   <div class="menu-item-name">
                     River Styx Soda Flight
                   </div>
                   <div class="menu-item-desc">
-                    Trio of mini sodas in rotating underworld flavors — perfect for tasting all the rivers at once.
+                    Trio of mini sodas in rotating underworld flavors — perfect for mortals who want to taste all the rivers at once.
                   </div>
                 </div>
 
@@ -1350,7 +1492,7 @@
                     Blood Moon Punch
                   </div>
                   <div class="menu-item-desc">
-                    Deep red citrus-berry punch, available still or lightly sparkling. Non-alcoholic, spooky on purpose.
+                    Deep red citrus-berry punch, still or lightly sparkling. Non-alcoholic, spooky on purpose.
                   </div>
                 </div>
 
@@ -1359,7 +1501,7 @@
                     Lethe Lemon Fizz
                   </div>
                   <div class="menu-item-desc">
-                    Tart lemon-lime fizz with a hint of vanilla. Refreshing enough to forget your mortal worries.
+                    Tart lemon-lime fizz with a hint of vanilla — refreshing enough to make you forget your mortal worries for a moment.
                   </div>
                 </div>
 
@@ -1368,11 +1510,15 @@
                     Elysian Spring Water
                   </div>
                   <div class="menu-item-desc">
-                    Still or sparkling water from the “upper realms” — for those pacing their journey through the flames.
+                    Still or sparkling water from the “upper realms” — for those pacing their journey through the flames between bites.
                   </div>
                 </div>
 
-                <div class="menu-item">
+                <div
+                  class="menu-item seasonal-drink"
+                  data-seasons="summer"
+                  data-cerberus="Summer Brew: Powerful, dark, and cold. Watcher recommends only one. Biter disagrees."
+                >
                   <div class="menu-item-name">
                     Obsidian Cold Brew
                     <span
@@ -1383,14 +1529,18 @@
                   </div>
                   <div class="menu-item-desc">
                     Dark roast cold brew over ice, optionally sweetened with ember syrup or oat milk.
-                    Brewed in the shadow of Tartarus and served chilled for the hottest nights.
+                    Brewed in the shadow of Tartarus and served over ice for the hottest nights.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">DF option</div>
                   </div>
                 </div>
 
-                <div class="menu-item">
+                <div
+                  class="menu-item seasonal-drink"
+                  data-seasons="autumn,winter"
+                  data-cerberus="Hot Chocolate Report: Three layers of cocoa. Three heads approve. Perfect for cold patrol nights."
+                >
                   <div class="menu-item-name">
                     Cerberus Hot Chocolate
                     <span
@@ -1401,7 +1551,7 @@
                   </div>
                   <div class="menu-item-desc">
                     Rich, three-headed hot chocolate with layers of dark, milk, and white cocoa,
-                    topped with flame-toasted marshmallow and ember drizzle. Offered during the colder seasons.
+                    topped with flame-toasted marshmallow and ember drizzle. Offered only during the colder seasons.
                   </div>
                   <div class="menu-badges">
                     <div class="badge">Seasonal</div>
@@ -1426,7 +1576,13 @@
         </div>
 
         <!-- Secret Menu -->
-        <div id="secretMenu" class="secret-menu" aria-hidden="true">
+        <div
+          id="secretMenu"
+          class="secret-menu"
+          aria-hidden="true"
+          role="region"
+          aria-labelledby="secretStar"
+        >
           <div class="secret-menu-inner">
             <div class="secret-menu-label">Whispers from the Labyrinth</div>
             <div class="secret-menu-title">Minotaur’s Challenge Platter</div>
@@ -1465,7 +1621,7 @@
               keeper of comfort food, fire-tender, and guardian of every hungry soul who wanders up to the window.
             </p>
             <p class="about-quote">
-              “You don’t have to be brave to eat here. We’ll meet you wherever you are on the spice ladder.”
+              “You don’t have to be brave to eat here. We’ll meet you wherever you are on the path — from Mortal to Hellfire.”
             </p>
           </div>
 
@@ -1474,7 +1630,7 @@
             <p class="about-highlight">
               We take allergies and sensitivities seriously:
               <strong>GF, DF, vegan, and kid-friendly paths</strong> are clearly marked and handled with care.
-              Ask the Hound about safe routes through the menu — no soul will be left out of the feast.
+              Ask the Hound about safe routes through the menu — no soul, witch, or little wraith will be left out of the feast.
             </p>
           </div>
         </div>
@@ -1488,7 +1644,7 @@
           <div class="section-eyebrow">Summon the Truck</div>
           <h2 class="section-title">Book Hades Wicked Bites</h2>
           <p class="section-subtitle">
-            Festivals, markets, private rituals, weddings with a witchy twist — invite the Underworld Kitchen to your next gathering.
+            Festivals, markets, private rituals, handfastings, and witchy weddings — invite the Underworld Kitchen to your next gathering.
           </p>
         </div>
 
@@ -1496,30 +1652,33 @@
           <div class="contact-card">
             <div class="contact-card-title">Send Your Summons</div>
             <p>
-              For booking inquiries, events, and collaborations, reach out with the details of your gathering:
+              For booking inquiries, events, and collaborations, send a summons with the details of your gathering:
             </p>
             <ul class="contact-card-list">
-              <li>Event name, date, and location</li>
-              <li>Estimated headcount (mortals & little wraiths)</li>
-              <li>Any dietary needs or allergy considerations</li>
-              <li>Desired menu focus (sliders, bowls, feasts, or sweets)</li>
+              <li>Event name, date, and location (realm &amp; venue)</li>
+              <li>Estimated headcount (mortals &amp; little wraiths)</li>
+              <li>Any dietary needs, allergies, or access considerations</li>
+              <li>Desired menu focus (sliders, bowls, feasts, sweets, or elixirs)</li>
             </ul>
             <p>
               Email: <a href="mailto:bookings@hadeswickedbites.com">bookings@hadeswickedbites.com</a>
             </p>
             <p class="contact-note">
-              The Hound of Hades will reply with availability, pricing, and suggested offerings suited to your realm.
+              The Hound of Hades will reply with availability, pricing, and suggested offerings woven to fit your event.
             </p>
           </div>
 
           <div class="summon-calendar">
             <h4>Glimpse the Gates</h4>
             <p>
-              Check our public calendar for festivals, markets, and appearances where you can find the truck in the wild.
+              Check our public calendar for festivals, markets, and appearances where you can find the truck roaming in the wild.
             </p>
             <div class="calendar-wrap">
               <!-- Replace src with your actual embeddable calendar link -->
-              <iframe src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_EMBED_HERE"></iframe>
+              <iframe
+                src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_EMBED_HERE"
+                title="Hades Wicked Bites public events calendar"
+              ></iframe>
             </div>
           </div>
         </div>
@@ -1535,7 +1694,7 @@
           © <span id="yearSpan"></span> Hades Wicked Bites. All rites reserved.
         </div>
         <div class="footer-links">
-          <span>Designed for mortals & mischief-makers.</span>
+          <span>Designed for mortals &amp; mischief-makers.</span>
         </div>
       </div>
     </div>
@@ -1546,6 +1705,8 @@
     document.addEventListener("DOMContentLoaded", function() {
       const body = document.body;
       const header = document.querySelector(".hb-header");
+      const cerbTip = document.getElementById("cerberusTip");
+      const cerbTipText = document.getElementById("cerberusTipText");
 
       // Loader + header reveal
       setTimeout(function() {
@@ -1572,9 +1733,11 @@
           if (isActive) {
             secretMenu.classList.add("visible");
             secretMenu.setAttribute("aria-hidden", "false");
+            secretStar.setAttribute("aria-expanded", "true");
           } else {
             secretMenu.classList.remove("visible");
             secretMenu.setAttribute("aria-hidden", "true");
+            secretStar.setAttribute("aria-expanded", "false");
           }
         });
       }
@@ -1585,7 +1748,7 @@
         yearSpan.textContent = new Date().getFullYear();
       }
 
-      // Seasonal logic for Night Pearls + callout
+      // Determine season from month
       const now = new Date();
       const month = now.getMonth(); // 0–11
 
@@ -1606,9 +1769,37 @@
         const itemSeason = item.getAttribute("data-season");
         if (itemSeason === season) {
           item.style.display = "block";
+          item.classList.add("season-active");
         } else {
           item.style.display = "none";
+          item.classList.remove("season-active");
         }
+      });
+
+      // Rotate seasonal drinks (Obsidian Cold Brew, Cerberus Hot Chocolate, Elysian Dawn)
+      const seasonalDrinks = document.querySelectorAll(".seasonal-drink");
+      seasonalDrinks.forEach(function(drink) {
+        const seasonsAttr = drink.getAttribute("data-seasons") || "";
+        const seasonsList = seasonsAttr.split(",").map(function(s) {
+          return s.trim();
+        });
+
+        if (seasonsList.includes(season)) {
+          drink.style.display = "block";
+          drink.classList.add("season-active");
+        } else {
+          drink.style.display = "none";
+          drink.classList.remove("season-active");
+        }
+      });
+
+      // Glow icons for active seasonal items
+      const activeSeasonalItems = document.querySelectorAll(".season-active .seasonal-icon");
+      activeSeasonalItems.forEach(function(icon) {
+        icon.classList.add("icon-glow");
+        setTimeout(function() {
+          icon.classList.remove("icon-glow");
+        }, 1800);
       });
 
       // Update Seasonal Specials callout copy
@@ -1618,17 +1809,55 @@
         if (msg) {
           let text;
           if (season === "spring") {
-            text = "Spring in the Underworld: Seasonal Night Pearls – Spring Return, Elysian Orchard Fruit Cups, and bright comforts for Ostara and Beltane.";
+            text = "Spring in the Underworld: Seasonal Night Pearls – Spring Return, Elixir of Elysian Dawn, Elysian Orchard Fruit Cups, and bright comforts for Ostara and Beltane.";
           } else if (season === "summer") {
-            text = "Summer in the Underworld: Seasonal Night Pearls – Summer Fire, Obsidian Cold Brew, and flame-kissed festival favorites.";
+            text = "Summer in the Underworld: Seasonal Night Pearls – Summer Fire, Obsidian Cold Brew, and flame-kissed festival favorites under long, hot nights.";
           } else if (season === "autumn") {
-            text = "Harvest season in the Underworld: Seasonal Night Pearls – Harvest Ember, Minotaur Nachos, warm sweets, and feasts for Mabon and Samhain.";
+            text = "Harvest season in the Underworld: Seasonal Night Pearls – Harvest Ember, Cerberus Hot Chocolate, Minotaur Nachos, and warm sweets for Mabon and Samhain.";
           } else {
-            text = "Winter in the Underworld: Seasonal Night Pearls – Winter Shadow, Cerberus Hot Chocolate, and deep comfort for Yule and Imbolc.";
+            text = "Winter in the Underworld: Seasonal Night Pearls – Winter Shadow, Cerberus Hot Chocolate, and deep comfort for Yule, Imbolc, and long solstice nights.";
           }
           msg.textContent = text;
         }
       }
+
+      // Cerberus commentary tooltip for seasonal items
+      function attachCerberusTips() {
+        const tipTargets = document.querySelectorAll(".night-pearls, .seasonal-drink");
+        tipTargets.forEach(function(el) {
+          el.addEventListener("click", function() {
+            const text = el.getAttribute("data-cerberus");
+            if (!text || !cerbTip || !cerbTipText) return;
+
+            // If same text and tooltip visible, hide it
+            if (cerbTip.classList.contains("cerberus-tip-visible") &&
+                cerbTipText.textContent === text) {
+              cerbTip.classList.remove("cerberus-tip-visible");
+              return;
+            }
+
+            cerbTipText.textContent = text;
+            cerbTip.classList.add("cerberus-tip-visible");
+
+            // Auto-hide after a few seconds
+            setTimeout(function() {
+              cerbTip.classList.remove("cerberus-tip-visible");
+            }, 4500);
+          });
+        });
+
+        // Hide tooltip if user taps outside
+        document.addEventListener("click", function(evt) {
+          if (!cerbTip) return;
+          const isTip = cerbTip.contains(evt.target);
+          const isSeasonal = evt.target.closest && evt.target.closest(".night-pearls, .seasonal-drink");
+          if (!isTip && !isSeasonal) {
+            cerbTip.classList.remove("cerberus-tip-visible");
+          }
+        });
+      }
+
+      attachCerberusTips();
     });
   </script>
 </body>
