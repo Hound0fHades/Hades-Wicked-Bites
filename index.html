@@ -720,6 +720,7 @@
       display: flex;
       justify-content: space-between;
       gap: 0.4rem;
+      align-items: center;
     }
     .menu-item-name span {
       color: var(--gold);
@@ -1268,13 +1269,32 @@
                   </div>
                 </div>
 
-                <!-- NEW: Night Pearls of Persephone -->
+                <!-- Night Pearls variants -->
                 <div class="menu-item">
                   <div class="menu-item-name">
-                    Night Pearls of Persephone
+                    Night Pearls of Persephone – Summer Fire
+                    <span
+                      class="seasonal-icon"
+                      aria-hidden="true"
+                      data-tooltip="Summer Seasonal"
+                    >☀️</span>
                   </div>
                   <div class="menu-item-desc">
-                    Dark chocolate–coated pomegranate “pearls” — forbidden fruit made dangerously bite-sized.
+                    Dark chocolate–coated pomegranate “pearls” with a flicker of chili heat — forbidden fruit with a sunburn.
+                  </div>
+                </div>
+
+                <div class="menu-item">
+                  <div class="menu-item-name">
+                    Night Pearls of Persephone – Winter Solstice
+                    <span
+                      class="seasonal-icon"
+                      aria-hidden="true"
+                      data-tooltip="Winter Seasonal"
+                    >❄️</span>
+                  </div>
+                  <div class="menu-item-desc">
+                    Dark chocolate–coated pomegranate “pearls” warmed with cozy winter spices — comfort from the cold side of the veil.
                   </div>
                 </div>
 
@@ -1500,12 +1520,13 @@
       }
 
       // Simple seasonal callout text
-      const seasonCallout = document.getElementById("seasonCallout");
-      if (seasonCallout) {
-        const msg = seasonCallout.querySelector(".season-message");
-        if (msg) {
-          msg.textContent =
-            "Current seasonals include Obsidian Cold Brew, Cerberus Hot Chocolate, and rotating Underworld specials.";
+const seasonCallout = document.getElementById("seasonCallout");
+if (seasonCallout) {
+  const msg = seasonCallout.querySelector(".season-message");
+  if (msg) {
+    msg.textContent =
+      "Current seasonals include Night Pearls of Persephone (Summer Fire & Winter Solstice), Obsidian Cold Brew, and Cerberus Hot Chocolate.";
+  
         }
       }
     });
