@@ -5,19 +5,33 @@
   <title>Cerberus Bites | Feast in the Underworld</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Cerberus Bites — an underworld-themed food truck serving wicked sliders, infernal mac, underworld feasts, and elixirs. Feast in the Underworld.">
-  <link rel="canonical" href="https://hound0fhades.github.io/Cerberus-Bites">
+  <link rel="canonical" href="https://hound0fhades.github.io/Hades-Wicked-Bites">
   <style>
     :root {
-      /* Base Greek/underworld palette (will be overridden by JS Wheel-of-the-Year theme) */
+      /* Base design tokens – these get overridden by JS per sabbat */
       --bg: #050308;
       --bg-alt: #0c050b;
-      --accent: #b5441f;      /* terracotta / amphora red */
-      --accent-soft: #7e0f1d; /* deep wine */
-      --gold: #f5c97a;        /* laurel / bronze gold */
+      --bg-soft: #020107;
+
+      --panel: #17141f;
+      --panel-alt: #111016;
+
+      --accent: #ca3400;
+      --accent-soft: #7e0f1d;
+      --gold: #f5c97a;
+
       --text: #f4f2f6;
       --muted: #b3a9c0;
       --border: #312033;
+
+      --chip-bg: rgba(17, 16, 22, 0.9);
+
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.65);
+      --shadow-strong: 0 0 32px rgba(0, 0, 0, 0.9);
+      --accent-glow: 0 0 18px rgba(202, 52, 0, 0.7);
+      --gold-glow: 0 0 10px rgba(245, 201, 122, 0.9);
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -25,7 +39,7 @@
     }
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #1b0710 0, #050308 55%, #020107 100%);
+      background: radial-gradient(circle at top, var(--bg-alt) 0, var(--bg) 55%, var(--bg-soft) 100%);
       color: var(--text);
       line-height: 1.6;
       transition: background 0.4s ease, color 0.4s ease;
@@ -37,7 +51,7 @@
     .loader-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, #2b0915 0, #050308 55%, #020107 100%);
+      background: radial-gradient(circle at top, var(--bg-alt) 0, var(--bg) 55%, var(--bg-soft) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -49,8 +63,8 @@
       padding: 1.5rem 2rem;
       border-radius: 20px;
       border: 1px solid rgba(245,201,122,0.4);
-      background: radial-gradient(circle at top, rgba(126,15,29,0.9), rgba(5,3,8,0.98));
-      box-shadow: 0 0 30px rgba(0,0,0,0.9);
+      background: radial-gradient(circle at top, rgba(0,0,0,0.55), var(--panel));
+      box-shadow: var(--shadow-strong);
     }
     .loader-symbol {
       width: 52px;
@@ -65,9 +79,9 @@
       font-size: 1.1rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      background: radial-gradient(circle, var(--accent) 0, #050308 65%);
+      background: radial-gradient(circle, var(--accent) 0, var(--bg) 65%);
       color: #fdf3e0;
-      box-shadow: 0 0 22px rgba(202,52,0,0.8);
+      box-shadow: 0 0 22px rgba(0,0,0,0.8);
       animation: loaderPulse 1.6s ease-in-out infinite;
     }
     .loader-text-main {
@@ -75,7 +89,7 @@
       font-size: 1rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #f8e8c4;
+      color: var(--gold);
       margin-bottom: 0.4rem;
     }
     .loader-text-sub {
@@ -91,22 +105,22 @@
     }
 
     @keyframes loaderPulse {
-      0% { transform: scale(1); box-shadow: 0 0 10px rgba(202,52,0,0.4); }
-      50% { transform: scale(1.05); box-shadow: 0 0 26px rgba(202,52,0,0.9); }
-      100% { transform: scale(1); box-shadow: 0 0 10px rgba(202,52,0,0.4); }
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(0,0,0,0.6); }
+      50% { transform: scale(1.05); box-shadow: 0 0 26px rgba(0,0,0,1); }
+      100% { transform: scale(1); box-shadow: 0 0 10px rgba(0,0,0,0.6); }
     }
 
     /* Coming Soon Banner with flicker */
     .coming-soon-banner {
-      background: linear-gradient(to right, #7e0f1d, var(--accent), #7e0f1d);
+      background: linear-gradient(to right, var(--accent-soft), var(--accent), var(--accent-soft));
       padding: 0.6rem 1rem;
       text-align: center;
-      color: #f5e6dc;
+      color: var(--text);
       font-family: "Georgia", "Times New Roman", serif;
       font-size: 0.9rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      box-shadow: 0 0 18px rgba(202,52,0,0.7);
+      box-shadow: 0 0 18px rgba(0,0,0,0.9);
       position: relative;
       overflow: hidden;
       animation: flameFlicker 2.4s ease-in-out infinite alternate;
@@ -149,14 +163,14 @@
       z-index: 50;
       background: linear-gradient(
         to right,
-        rgba(5, 3, 8, 0.96),
-        rgba(7, 1, 1, 0.96)
+        rgba(0,0,0,0.96),
+        rgba(0,0,0,0.96)
       );
       border-bottom: 1px solid rgba(245,201,122,0.22);
       backdrop-filter: blur(10px);
       box-shadow:
         0 0 18px rgba(0,0,0,0.9),
-        inset 0 -1px 0 rgba(202,52,0,0.3);
+        inset 0 -1px 0 rgba(0,0,0,0.6);
       transform: translateY(-18px);
       opacity: 0;
       transition:
@@ -172,7 +186,7 @@
     .hb-header.scrolled {
       box-shadow:
         0 0 26px rgba(0,0,0,1),
-        0 0 30px rgba(202,52,0,0.55);
+        0 0 30px rgba(0,0,0,0.9);
     }
 
     .nav {
@@ -201,7 +215,7 @@
       height: 90px;
       width: auto;
       display: block;
-      filter: drop-shadow(0 0 12px rgba(202,52,0,0.8));
+      filter: drop-shadow(0 0 12px rgba(0,0,0,0.9));
       transition:
         height 0.25s ease,
         transform 0.25s ease,
@@ -210,7 +224,7 @@
 
     .hb-header.scrolled .logo-img {
       height: 68px;
-      filter: drop-shadow(0 0 8px rgba(202,52,0,0.7));
+      filter: drop-shadow(0 0 8px rgba(0,0,0,0.9));
     }
 
     .logo-img:hover {
@@ -220,11 +234,11 @@
     @keyframes logoFlame {
       0% {
         transform: translateY(0) scale(1);
-        filter: drop-shadow(0 0 10px rgba(202,52,0,0.8));
+        filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
       }
       100% {
         transform: translateY(-1px) scale(1.03);
-        filter: drop-shadow(0 0 18px rgba(202,52,0,1));
+        filter: drop-shadow(0 0 18px rgba(0,0,0,1));
       }
     }
 
@@ -233,6 +247,7 @@
       font-size: 1.05rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: var(--gold);
     }
 
     .nav-brand-text .brand-subtitle {
@@ -265,8 +280,8 @@
       height: 2px;
       width: 0;
       border-radius: 999px;
-      background: linear-gradient(to right, #f5c97a, var(--accent), #7e0f1d);
-      box-shadow: 0 0 10px rgba(202,52,0,0.8);
+      background: linear-gradient(to right, var(--gold), var(--accent), var(--accent-soft));
+      box-shadow: 0 0 10px rgba(0,0,0,0.8);
       opacity: 0;
       transition:
         width 0.22s ease,
@@ -295,11 +310,11 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       background:
-        radial-gradient(circle at top left, rgba(202,52,0,0.9), transparent),
-        radial-gradient(circle at bottom right, rgba(126,15,29,0.9), rgba(5,3,8,0.95));
+        radial-gradient(circle at top left, var(--accent), transparent),
+        radial-gradient(circle at bottom right, var(--accent-soft), var(--bg));
       color: #fff;
       box-shadow:
-        0 0 16px rgba(202,52,0,0.9),
+        0 0 16px rgba(0,0,0,1),
         0 0 4px rgba(245,201,122,0.8);
       cursor: pointer;
       position: relative;
@@ -323,8 +338,8 @@
 
     .nav-cta:hover {
       box-shadow:
-        0 0 22px rgba(202,52,0,1),
-        0 0 10px rgba(245,201,122,0.9);
+        0 0 22px rgba(0,0,0,1),
+        var(--gold-glow);
     }
 
     main {
@@ -379,6 +394,7 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--gold);
+      background: var(--chip-bg);
     }
     .hero-actions {
       display: flex;
@@ -402,7 +418,7 @@
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), var(--accent-soft));
       color: #fff;
-      box-shadow: 0 0 18px rgba(202,52,0,0.7);
+      box-shadow: var(--accent-glow);
     }
     .btn-primary:hover {
       filter: brightness(1.05);
@@ -410,7 +426,7 @@
     .btn-ghost {
       border-color: rgba(245,201,122,0.5);
       color: var(--gold);
-      background: rgba(5,3,8,0.6);
+      background: rgba(0,0,0,0.6);
     }
     .btn-ghost:hover {
       background: rgba(245,201,122,0.08);
@@ -423,14 +439,12 @@
       border-radius: 24px;
       border: 1px solid rgba(245,201,122,0.3);
       padding: 1px;
-      background: radial-gradient(circle at top, rgba(202,52,0,0.8), #050308);
-      box-shadow:
-        0 0 32px rgba(202,52,0,0.45),
-        0 0 80px rgba(0,0,0,0.9);
+      background: radial-gradient(circle at top, var(--accent-soft), var(--bg));
+      box-shadow: var(--shadow-strong);
     }
     .hero-art-inner {
       border-radius: 22px;
-      background: radial-gradient(circle at bottom, #050308 0, #140308 40%, #050308 100%);
+      background: radial-gradient(circle at bottom, var(--bg) 0, var(--panel-alt) 40%, var(--bg) 100%);
       padding: 1.3rem;
       display: flex;
       flex-direction: column;
@@ -441,6 +455,7 @@
       font-size: 1.1rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
+      color: var(--gold);
     }
     .hero-art-grid {
       display: grid;
@@ -452,7 +467,7 @@
       border-radius: 16px;
       border: 1px solid rgba(245,201,122,0.25);
       padding: 0.6rem 0.7rem;
-      background: radial-gradient(circle at top left, rgba(126,15,29,0.6), rgba(5,3,8,0.9));
+      background: radial-gradient(circle at top left, var(--panel-alt), var(--bg));
     }
     .hero-card h4 {
       font-size: 0.8rem;
@@ -492,6 +507,7 @@
       font-family: "Georgia", "Times New Roman", serif;
       font-size: 1.4rem;
       margin-bottom: 0.3rem;
+      color: var(--text);
     }
 
     .section-subtitle {
@@ -506,7 +522,7 @@
       border-radius: 14px;
       padding: 0.9rem 1.2rem;
       margin: 1rem 0 1.5rem;
-      background: radial-gradient(circle at top left, rgba(202,52,0,0.18), rgba(5,3,8,0.9));
+      background: radial-gradient(circle at top left, rgba(0,0,0,0.55), var(--panel-alt));
       backdrop-filter: blur(4px);
       box-shadow: 0 0 18px rgba(0,0,0,0.6);
       animation: calloutFade 0.7s ease-out both;
@@ -546,7 +562,7 @@
       align-items: center;
       justify-content: center;
       font-size: 0.7rem;
-      color: #f5e6dc;
+      color: var(--gold);
       cursor: pointer;
       opacity: 0.45;
       box-shadow: 0 0 6px rgba(245,201,122,0.4);
@@ -564,7 +580,7 @@
     }
     .secret-star.active {
       opacity: 1;
-      box-shadow: 0 0 12px rgba(245,201,122,1), 0 0 20px rgba(202,52,0,0.9);
+      box-shadow: 0 0 12px rgba(245,201,122,1), 0 0 20px rgba(0,0,0,0.9);
     }
 
     /* Secret menu panel */
@@ -572,7 +588,7 @@
       margin-top: 1.4rem;
       border-radius: 18px;
       border: 1px dashed rgba(245,201,122,0.4);
-      background: radial-gradient(circle at top left, rgba(15,3,10,0.97), rgba(5,3,8,0.98));
+      background: radial-gradient(circle at top left, var(--panel), var(--bg));
       padding: 1.1rem 1.2rem;
       font-size: 0.85rem;
       display: none;
@@ -587,7 +603,7 @@
       inset: 0;
       background:
         radial-gradient(circle at 10% 0%, rgba(245,201,122,0.18), transparent 55%),
-        radial-gradient(circle at 90% 100%, rgba(202,52,0,0.25), transparent 60%);
+        radial-gradient(circle at 90% 100%, rgba(0,0,0,0.25), transparent 60%);
       opacity: 0.7;
       pointer-events: none;
     }
@@ -610,6 +626,7 @@
       font-family: "Georgia", "Times New Roman", serif;
       font-size: 1rem;
       margin-bottom: 0.3rem;
+      color: var(--text);
     }
     .secret-menu-desc {
       color: var(--muted);
@@ -628,11 +645,11 @@
       margin-left: 0.4rem;
       padding: 0.05rem 0.45rem;
       border-radius: 999px;
-      border: 1px solid rgba(202,52,0,0.7);
+      border: 1px solid rgba(245,201,122,0.7);
       font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: #f5e6dc;
+      color: var(--text);
     }
 
     @keyframes fadeInUp {
@@ -656,7 +673,7 @@
       bottom: 130%;
       transform: translateX(-50%);
       white-space: nowrap;
-      background: rgba(5,3,8,0.96);
+      background: rgba(0,0,0,0.96);
       color: var(--text);
       border-radius: 999px;
       padding: 0.25rem 0.6rem;
@@ -679,7 +696,7 @@
       transform: translateX(-50%) rotate(45deg);
       width: 8px;
       height: 8px;
-      background: rgba(5,3,8,0.96);
+      background: rgba(0,0,0,0.96);
       border-left: 1px solid rgba(245,201,122,0.6);
       border-bottom: 1px solid rgba(245,201,122,0.6);
       opacity: 0;
@@ -722,6 +739,7 @@
       display: flex;
       justify-content: space-between;
       gap: 0.4rem;
+      color: var(--text);
     }
     .menu-item-name span {
       color: var(--gold);
@@ -747,14 +765,16 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--muted);
+      background: rgba(0,0,0,0.4);
     }
 
     .menu-art {
       border-radius: 20px;
       border: 1px solid rgba(245,201,122,0.25);
       padding: 1rem;
-      background: radial-gradient(circle at top, rgba(202,52,0,0.7), #050308);
+      background: radial-gradient(circle at top, var(--accent-soft), var(--bg));
       font-size: 0.8rem;
+      box-shadow: var(--shadow-soft);
     }
     .menu-art h4 {
       font-size: 0.9rem;
@@ -770,7 +790,7 @@
       font-family: "Georgia", "Times New Roman", serif;
       font-style: italic;
       margin-top: 0.5rem;
-      color: #f8e8c4;
+      color: var(--text);
     }
 
     /* About */
@@ -783,7 +803,7 @@
       border-radius: 18px;
       border: 1px solid rgba(245,201,122,0.25);
       padding: 1.1rem 1.2rem;
-      background: radial-gradient(circle at top left, rgba(126,15,29,0.6), rgba(5,3,8,0.95));
+      background: radial-gradient(circle at top left, var(--panel-alt), var(--bg));
       font-size: 0.9rem;
       color: var(--muted);
     }
@@ -802,7 +822,7 @@
       font-family: "Georgia", "Times New Roman", serif;
       font-style: italic;
       margin-top: 0.7rem;
-      color: #f8e8c4;
+      color: var(--text);
     }
     .about-highlight {
       border-radius: 16px;
@@ -810,11 +830,12 @@
       padding: 0.9rem 1rem;
       font-size: 0.8rem;
       color: var(--muted);
+      background: radial-gradient(circle at top right, var(--panel), var(--bg));
     }
 
     /* Contact / Summon */
     .contact {
-      background: radial-gradient(circle at top, #15020b, #050308);
+      background: radial-gradient(circle at top, var(--bg-alt), var(--bg-soft));
     }
     .summon-grid {
       display: grid;
@@ -827,8 +848,8 @@
       border-radius: 20px;
       border: 1px solid rgba(245,201,122,0.25);
       padding: 1.3rem 1.4rem;
-      background: radial-gradient(circle at top, rgba(202,52,0,0.7), #050308);
-      box-shadow: 0 0 24px rgba(0,0,0,0.9);
+      background: radial-gradient(circle at top, var(--accent-soft), var(--bg));
+      box-shadow: var(--shadow-strong);
       font-size: 0.85rem;
       color: var(--muted);
     }
@@ -843,7 +864,7 @@
       margin-top: 0.6rem;
       border-radius: 14px;
       overflow: hidden;
-      background: #050308;
+      background: var(--bg);
       border: 1px solid rgba(245,201,122,0.3);
       height: 460px;
     }
@@ -858,8 +879,8 @@
       border-radius: 20px;
       border: 1px solid rgba(245,201,122,0.25);
       padding: 1.3rem 1.4rem;
-      background: radial-gradient(circle at top left, rgba(126,15,29,0.7), rgba(5,3,8,0.96));
-      box-shadow: 0 0 24px rgba(0,0,0,0.9);
+      background: radial-gradient(circle at top left, var(--panel-alt), var(--bg));
+      box-shadow: var(--shadow-strong);
       font-size: 0.85rem;
       color: var(--muted);
     }
@@ -1054,9 +1075,9 @@
             Infernal comfort food for mortals of every kind — kids, picky eaters, spice fiends, and those walking gentler paths.
           </p>
 
-          <!-- Seasonal specials callout (Wheel-of-the-Year will update this) -->
+          <!-- Seasonal specials callout -->
           <div id="seasonCallout" class="season-callout">
-            <strong class="season-title">Seasonal Offerings from the Deep</strong>
+            <strong class="season-title">Seasonal Specials</strong>
             <p class="season-message">Loading seasonal offerings…</p>
           </div>
         </div>
@@ -1252,6 +1273,26 @@
                   </div>
                 </div>
 
+                <!-- Night Pearls of Persephone – menu-only, seasonal sweet -->
+                <div class="menu-item">
+                  <div class="menu-item-name">
+                    Night Pearls of Persephone
+                    <span
+                      class="seasonal-icon"
+                      aria-hidden="true"
+                      data-tooltip="Seasonal Sweet"
+                    >🌙</span>
+                  </div>
+                  <div class="menu-item-desc">
+                    Dark-chocolate–dipped pomegranate jewels from the garden of the Underworld.
+                    Crisp, glossy, and just a little dangerous.
+                  </div>
+                  <div class="menu-badges">
+                    <div class="badge">Seasonal</div>
+                    <div class="badge">GF friendly</div>
+                  </div>
+                </div>
+
                 <div class="menu-item">
                   <div class="menu-item-name">
                     Underworld Churros
@@ -1267,18 +1308,6 @@
                   </div>
                   <div class="menu-item-desc">
                     Dark chocolate skulls, available in classic or gently spiced for brave souls.
-                  </div>
-                </div>
-
-                <div class="menu-item">
-                  <div class="menu-item-name">
-                    Night Pearls of Persephone
-                  </div>
-                  <div class="menu-item-desc">
-                    Dark chocolate–dipped “pomegranate pearls” with seasonal hex variants — a tiny, crunchy promise from the Underworld.
-                  </div>
-                  <div class="menu-badges">
-                    <div class="badge">Seasonal twists</div>
                   </div>
                 </div>
 
@@ -1320,14 +1349,13 @@
                   </div>
                 </div>
 
-                <!-- These two are controlled by JS to switch with the season -->
-                <div class="menu-item seasonal-drink" data-season-group="warm" id="obsidianColdBrew">
+                <div class="menu-item">
                   <div class="menu-item-name">
                     Obsidian Cold Brew
                     <span
                       class="seasonal-icon"
                       aria-hidden="true"
-                      data-tooltip="Warm Season"
+                      data-tooltip="Summer Seasonal"
                     >☀️</span>
                   </div>
                   <div class="menu-item-desc">
@@ -1336,17 +1364,16 @@
                   </div>
                   <div class="menu-badges">
                     <div class="badge">DF option</div>
-                    <div class="badge">Warm-season feature</div>
                   </div>
                 </div>
 
-                <div class="menu-item seasonal-drink" data-season-group="cold" id="cerberusHotChocolate">
+                <div class="menu-item">
                   <div class="menu-item-name">
                     Cerberus Hot Chocolate
                     <span
                       class="seasonal-icon"
                       aria-hidden="true"
-                      data-tooltip="Cold Season"
+                      data-tooltip="Fall & Winter Seasonal"
                     >🍁</span>
                   </div>
                   <div class="menu-item-desc">
@@ -1356,7 +1383,6 @@
                   <div class="menu-badges">
                     <div class="badge">Seasonal</div>
                     <div class="badge">DF option</div>
-                    <div class="badge">Cold-season feature</div>
                   </div>
                 </div>
 
@@ -1422,7 +1448,7 @@
               guardian of flavor, keeper of the ember flame, and alchemist of wicked comfort food.
             </p>
             <p style="margin-top:0.5rem;">
-              With a love for witchy aesthetics, Greek myth, and soul-warming food, the Underworld Kitchen balances
+              With a love for witchy aesthetics, fantasy worlds, and soul-warming food, the Underworld Kitchen balances
               <strong>dark, immersive storytelling</strong> with <strong>real-world accessibility</strong>:
               kid-friendly options, allergy-aware offerings, and flexible heat levels for every mortal.
             </p>
@@ -1466,7 +1492,7 @@
               Choose your time directly on the calendar. Once confirmed, you’ll receive an email from our booking system.
             </p>
             <div class="calendar-wrap">
-              <!-- Setmore booking URL for Cerberus Bites -->
+              <!-- Cerberus Bites Setmore booking URL -->
               <iframe
                 src="https://CerberusBites.setmore.com"
                 loading="lazy"
@@ -1487,8 +1513,8 @@
             <ul class="contact-card-list">
               <li>
                 <strong>Website:</strong>
-                <a href="https://hound0fhades.github.io/Cerberus-Bites" target="_blank">
-                  hound0fhades.github.io/Cerberus-Bites
+                <a href="https://hound0fhades.github.io/Hades-Wicked-Bites" target="_blank">
+                  hound0fhades.github.io/Hades-Wicked-Bites
                 </a>
               </li>
               <li>
@@ -1530,7 +1556,7 @@
     </div>
 
     <script>
-      // On load: year, loader, header reveal
+      // Year + loader + header reveal
       window.addEventListener('load', function () {
         // year
         var yearSpan = document.getElementById('year');
@@ -1591,110 +1617,144 @@
         });
       })();
 
-      // Wheel-of-the-Year theming + seasonal callout + seasonal drink switch
+      // Pagan Wheel of the Year theming + seasonal callout
       (function () {
         const root = document.documentElement;
 
-        // Palettes tied to sabbats
+        // 🎨 Palettes tied to sabbats
+        // Each sabbat overrides the same variables used throughout the site
         const sabbatThemes = {
           yule: {
             "--bg": "#050518",
             "--bg-alt": "#071125",
+            "--bg-soft": "#02020b",
+            "--panel": "#111827",
+            "--panel-alt": "#0b1120",
             "--accent": "#c8903b",
             "--accent-soft": "#1f6f6b",
             "--gold": "#f5e1a4",
             "--text": "#f7f4ff",
             "--muted": "#b7c3d9",
-            "--border": "#353d5a"
+            "--border": "#353d5a",
+            "--chip-bg": "rgba(17,24,39,0.9)"
           },
           imbolc: {
             "--bg": "#070716",
             "--bg-alt": "#101224",
+            "--bg-soft": "#02020a",
+            "--panel": "#111827",
+            "--panel-alt": "#020617",
             "--accent": "#f8d77b",
             "--accent-soft": "#a7d8ff",
             "--gold": "#ffeec0",
             "--text": "#fdfcff",
             "--muted": "#c8c4de",
-            "--border": "#3a355c"
+            "--border": "#3a355c",
+            "--chip-bg": "rgba(15,23,42,0.9)"
           },
           ostara: {
             "--bg": "#150b1c",
             "--bg-alt": "#21112b",
+            "--bg-soft": "#090414",
+            "--panel": "#1e1630",
+            "--panel-alt": "#12091f",
             "--accent": "#d48f6a",
             "--accent-soft": "#7fbf8e",
             "--gold": "#f7e3b0",
             "--text": "#fdf9ff",
             "--muted": "#c7bedc",
-            "--border": "#3a294e"
+            "--border": "#3a294e",
+            "--chip-bg": "rgba(24,16,40,0.9)"
           },
           beltane: {
             "--bg": "#120814",
             "--bg-alt": "#200f24",
+            "--bg-soft": "#06020c",
+            "--panel": "#1f0f23",
+            "--panel-alt": "#140816",
             "--accent": "#e0597f",
             "--accent-soft": "#4caa6b",
             "--gold": "#f9deb0",
             "--text": "#fff7ff",
             "--muted": "#cdb6d0",
-            "--border": "#3d2242"
+            "--border": "#3d2242",
+            "--chip-bg": "rgba(31,13,38,0.9)"
           },
           litha: {
             "--bg": "#060418",
             "--bg-alt": "#081533",
+            "--bg-soft": "#020212",
+            "--panel": "#111827",
+            "--panel-alt": "#020617",
             "--accent": "#f7b548",
             "--accent-soft": "#2e7abf",
             "--gold": "#ffe7ae",
             "--text": "#fdfbff",
             "--muted": "#b7c8e3",
-            "--border": "#274066"
+            "--border": "#274066",
+            "--chip-bg": "rgba(15,23,42,0.9)"
           },
           lughnasadh: {
             "--bg": "#0a050f",
             "--bg-alt": "#1a0d18",
+            "--bg-soft": "#040109",
+            "--panel": "#1b1122",
+            "--panel-alt": "#120a16",
             "--accent": "#e48a3a",
             "--accent-soft": "#b05332",
             "--gold": "#f7d99b",
             "--text": "#fff8f2",
             "--muted": "#ccb4c1",
-            "--border": "#3e2739"
+            "--border": "#3e2739",
+            "--chip-bg": "rgba(29,13,34,0.9)"
           },
           mabon: {
             "--bg": "#0b050f",
             "--bg-alt": "#221024",
+            "--bg-soft": "#040109",
+            "--panel": "#1c1020",
+            "--panel-alt": "#130b18",
             "--accent": "#c1563f",
             "--accent-soft": "#84602f",
             "--gold": "#f2d39c",
             "--text": "#fff7f4",
             "--muted": "#c8b4cc",
-            "--border": "#402538"
+            "--border": "#402538",
+            "--chip-bg": "rgba(28,12,32,0.9)"
           },
           samhain: {
             "--bg": "#05030b",
             "--bg-alt": "#170817",
+            "--bg-soft": "#020007",
+            "--panel": "#1a0c1d",
+            "--panel-alt": "#120616",
             "--accent": "#e06728",
             "--accent-soft": "#6a3b93",
             "--gold": "#f7d79c",
             "--text": "#fdf7ff",
             "--muted": "#c2b1d4",
-            "--border": "#3b203f"
+            "--border": "#3b203f",
+            "--chip-bg": "rgba(26,8,31,0.9)"
           }
         };
 
-        // Approximate sabbat ranges
+        // Approximate sabbat ranges (by month/day)
         function getSabbat(date) {
           const m = date.getMonth() + 1; // 1–12
           const d = date.getDate();
           const md = m * 100 + d;
 
-          if ((md >= 1028 && md <= 1130)) return "samhain";             // late Oct–Nov
-          if ((md >= 1201 && md <= 1231) || (md >= 101 && md <= 105)) return "yule"; // Dec–early Jan
-          if (md >= 201 && md <= 303) return "imbolc";                   // Feb–early Mar
-          if (md >= 320 && md <= 420) return "ostara";                   // late Mar–Apr
-          if (md >= 501 && md <= 515) return "beltane";                  // early May
-          if (md >= 620 && md <= 722) return "litha";                    // late Jun–July
-          if (md >= 801 && md <= 822) return "lughnasadh";               // Aug
-          if (md >= 921 && md <= 1005) return "mabon";                   // late Sept–early Oct
+          // Approximate windows
+          if ((md >= 1028 && md <= 1130)) return "samhain";                 // late Oct–Nov
+          if ((md >= 1201 && md <= 1231) || (md >= 101 && md <= 105)) return "yule";  // Dec–early Jan
+          if (md >= 201 && md <= 303) return "imbolc";                       // Feb–early Mar
+          if (md >= 320 && md <= 420) return "ostara";                       // late Mar–Apr
+          if (md >= 501 && md <= 515) return "beltane";                      // early May
+          if (md >= 620 && md <= 722) return "litha";                        // late Jun–July
+          if (md >= 801 && md <= 822) return "lughnasadh";                   // Aug
+          if (md >= 921 && md <= 1005) return "mabon";                       // late Sept–early Oct
 
-          // fallback by month
+          // Fallback by broader season
           if (m === 5 || m === 6) return "litha";
           if (m === 7 || m === 8) return "lughnasadh";
           if (m === 9) return "mabon";
@@ -1717,83 +1777,71 @@
           document.body.dataset.sabbat = sabbatKey;
         }
 
-        // Seasonal callout text
+        // 🌿 Update the Seasonal Specials callout text to match the sabbat
         const seasonCallout = document.getElementById("seasonCallout");
         const seasonMessage = seasonCallout ? seasonCallout.querySelector(".season-message") : null;
         const seasonTitleEl = seasonCallout ? seasonCallout.querySelector(".season-title") : null;
 
-        if (seasonCallout && seasonMessage && seasonTitleEl) {
-          const sabbatNames = {
-            yule: "Yule • Winter Solstice",
-            imbolc: "Imbolc • Returning Light",
-            ostara: "Ostara • Spring Equinox",
-            beltane: "Beltane • Fire & Blossom",
-            litha: "Litha • Summer Solstice",
-            lughnasadh: "Lughnasadh • First Harvest",
-            mabon: "Mabon • Autumn Equinox",
-            samhain: "Samhain • The Thinning Veil"
-          };
+        if (!seasonCallout || !seasonMessage || !seasonTitleEl) return;
 
-          const sabbatMessages = {
-            yule: `
-              ❄️ <strong>Yule in the Underworld</strong><br>
-              Cozy combos, warm sides, and <em>Cerberus Hot Chocolate</em> guarding the gate with triple cocoa fury.
-            `,
-            imbolc: `
-              🕯 <strong>Imbolc Embers</strong><br>
-              Gentle, comforting bites and lighter elixirs as the first sparks of light return to the realm.
-            `,
-            ostara: `
-              🌸 <strong>Ostara Awakening</strong><br>
-              Brighter flavors, fresh sides, and playful sweets as the fields above begin to bloom again.
-            `,
-            beltane: `
-              🔥 <strong>Beltane Flames</strong><br>
-              Spicier options, shareable feasts, and flirty elixirs — perfect for dancing around metaphorical bonfires.
-            `,
-            litha: `
-              ☀️ <strong>Litha Heat</strong><br>
-              <em>Obsidian Cold Brew</em> and cooler elixirs pour freely while the fires of the upper world burn hottest.
-            `,
-            lughnasadh: `
-              🌾 <strong>Lughnasadh Harvest</strong><br>
-              Hearty bowls, loaded nachos, and indulgent sides to honor the first grain and the hungriest of appetites.
-            `,
-            mabon: `
-              🍂 <strong>Mabon Balance</strong><br>
-              Rich, autumn-leaning comfort food and warm-leaning drinks as the light and dark stand in equal measure.
-            `,
-            samhain: `
-              🕯💀 <strong>Samhain in the Underworld</strong><br>
-              Deep, smoky flavors, indulgent sweets, and hot elixirs — the veil thins, and Cerberus keeps watch.
-            `
-          };
+        const sabbatNames = {
+          yule: "Yule • Winter Solstice",
+          imbolc: "Imbolc • Returning Light",
+          ostara: "Ostara • Spring Equinox",
+          beltane: "Beltane • Fire & Blossom",
+          litha: "Litha • Summer Solstice",
+          lughnasadh: "Lughnasadh • First Harvest",
+          mabon: "Mabon • Autumn Equinox",
+          samhain: "Samhain • The Thinning Veil"
+        };
 
-          const titleChoices = [
-            "🔥 Seasonal Flames Active 🔥",
-            "Seasonal Offerings from the Deep",
-            "The Wheel Turns…"
-          ];
-          const randomIndex = Math.floor(Math.random() * titleChoices.length);
+        const sabbatMessages = {
+          yule: `
+            ❄️ <strong>Yule in the Underworld</strong><br>
+            Cozy combos, warm sides, and <em>Cerberus Hot Chocolate</em> guarding the gate with triple cocoa fury.
+          `,
+          imbolc: `
+            🕯 <strong>Imbolc Embers</strong><br>
+            Gentle, comforting bites and lighter elixirs as the first sparks of light return to the realm.
+          `,
+          ostara: `
+            🌸 <strong>Ostara Awakening</strong><br>
+            Brighter flavors, fresh sides, and playful sweets as the fields above begin to bloom again.
+          `,
+          beltane: `
+            🔥 <strong>Beltane Flames</strong><br>
+            Spicier options, shareable feasts, and flirty elixirs — perfect for dancing around metaphorical bonfires.
+          `,
+          litha: `
+            ☀️ <strong>Litha Heat</strong><br>
+            <em>Obsidian Cold Brew</em> and cooler elixirs pour freely while the fires of the upper world burn hottest.
+          `,
+          lughnasadh: `
+            🌾 <strong>Lughnasadh Harvest</strong><br>
+            Hearty bowls, loaded nachos, and indulgent sides to honor the first grain and the hungriest of appetites.
+          `,
+          mabon: `
+            🍂 <strong>Mabon Balance</strong><br>
+            Rich, autumn-leaning comfort food and warm-leaning drinks as the light and dark stand in equal measure.
+          `,
+          samhain: `
+            🕯💀 <strong>Samhain in the Underworld</strong><br>
+            Deep, smoky flavors, indulgent sweets, and hot elixirs — the veil thins, and Cerberus keeps watch.
+          `
+        };
 
-          seasonTitleEl.textContent = sabbatNames[sabbatKey] || "Seasonal Offerings from the Deep";
-          seasonMessage.innerHTML = sabbatMessages[sabbatKey] || sabbatMessages["yule"];
-          seasonCallout.setAttribute("data-banner-variant", titleChoices[randomIndex]);
-        }
+        const titleChoices = [
+          "🔥 Seasonal Flames Active 🔥",
+          "Seasonal Offerings from the Deep",
+          "The Wheel Turns…"
+        ];
+        const randomIndex = Math.floor(Math.random() * titleChoices.length);
 
-        // Seasonal drinks auto-switching
-        const warmDrinks = document.querySelectorAll('.seasonal-drink[data-season-group="warm"]');
-        const coldDrinks = document.querySelectorAll('.seasonal-drink[data-season-group="cold"]');
+        seasonTitleEl.textContent = sabbatNames[sabbatKey] || "Seasonal Offerings from the Deep";
+        seasonMessage.innerHTML = sabbatMessages[sabbatKey] || sabbatMessages["yule"];
 
-        const warmSabbats = ["ostara", "beltane", "litha", "lughnasadh"];
-        const isWarmSeason = warmSabbats.includes(sabbatKey);
-
-        warmDrinks.forEach(el => {
-          el.style.display = isWarmSeason ? "" : "none";
-        });
-        coldDrinks.forEach(el => {
-          el.style.display = isWarmSeason ? "none" : "";
-        });
+        // Optional little variant tag if you ever want to style by this
+        seasonCallout.setAttribute("data-banner-variant", titleChoices[randomIndex]);
       })();
     </script>
   </footer>
